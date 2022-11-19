@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: leon <leon@student.42.fr>                  +#+  +:+       +#+         #
+#    By: lperroti <lperroti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 03:18:02 by leon              #+#    #+#              #
-#    Updated: 2022/11/18 04:53:19 by leon             ###   ########.fr        #
+#    Updated: 2022/11/19 07:42:18 by lperroti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,16 +24,17 @@ SRCS = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(FILES)))
 OBJS_DIR = ./
 OBJS = $(SRCS:.c=.o)
 
-LIBFT_DIR = ./libft/
-LIBFT_NAME = ft
+LIBFT_DIR = libft/
+LIBFT_NAME = libft.a
 
 $(NAME): $(OBJS)
-	$(AR) $@ $<
+	cp ${LIBFT_DIR}${LIBFT_NAME} $@
+	${AR} $@ $<
 
 $(OBJS): makelibft
 
 %.o: %.c
-	$(CC) $(CFLAGS) -L${LIBFT_DIR} -l${LIBFT_NAME} -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 makelibft:
 	cd ${LIBFT_DIR} && make
@@ -50,5 +51,9 @@ fclean: clean
 	rm -f $(NAME)
 
 re: clean all
+
+bonus:
+	cp ${LIBFT_DIR}${LIBFT_NAME} $@
+	${AR} $@ $<
 
 .PHONY: all clean fclean re

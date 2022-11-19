@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leon <leon@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lperroti <lperroti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 00:42:05 by lperroti          #+#    #+#             */
-/*   Updated: 2022/11/18 07:02:23 by leon             ###   ########.fr       */
+/*   Updated: 2022/11/19 05:55:00 by lperroti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <unistd.h>
+
+void	write_and_count(long long int nbr, char *base, unsigned int baselen,
+	ssize_t *pwritecount)
+{
+	if (nbr / baselen > 0)
+		write_and_count(nbr / baselen, base, baselen, pwritecount);
+	*pwritecount += write(1, &base[nbr % baselen], 1);
+}
 
 int	checkbase(char *base)
 {
@@ -35,19 +43,20 @@ int	checkbase(char *base)
 	return (1);
 }
 
-void	ft_putnbr_base(long int nbr, char *base)
+ssize_t	ft_putnbr_base(long long int nbr, char *base)
 {
 	unsigned int	baselen;
+	ssize_t			writecount;
 
 	if (!checkbase(base))
-		return ;
+		return (0);
+	baselen = ft_strlen(base);
+	writecount = 0;
 	if (nbr < 0)
 	{
 		nbr *= -1;
-		write(1, "-", 1);
+		writecount += write(1, "-", 1);
 	}
-	baselen = ft_strlen(base);
-	if (nbr / baselen > 0)
-		ft_putnbr_base(nbr / baselen, base);
-	write(1, &base[nbr % baselen], 1);
+	write_and_count(nbr, base, baselen, &writecount);
+	return (writecount);
 }

@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lperroti <lperroti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/13 01:25:32 by leon              #+#    #+#             */
-/*   Updated: 2022/11/19 02:35:50 by lperroti         ###   ########.fr       */
+/*   Created: 2022/11/19 03:25:23 by lperroti          #+#    #+#             */
+/*   Updated: 2022/11/19 03:25:25 by lperroti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <unistd.h>
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
+# include "libft/libft.h"
+# define HEX "0123456789abcdef"
+# define BHEX "0123456789ABCDEF"
 
-ssize_t	ft_putstr_fd(char *s, int fd)
-{
-	return (write(fd, s, ft_strlen(s)));
-}
+int	ft_printf(const char *str, ...);
+
+#endif
